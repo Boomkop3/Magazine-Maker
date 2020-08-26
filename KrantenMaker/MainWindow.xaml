@@ -1,0 +1,75 @@
+﻿<Window x:Class="KrantenMaker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KrantenMaker"
+        xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+        Title="Magazine Maker" Height="800" Width="400"
+        ResizeMode="NoResize"
+        Loaded="Window_Loaded" Icon="icon.png">
+    <Grid x:Name="skynet">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="58*"/>
+            <ColumnDefinition Width="139*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" x:Name="title"/>
+            <RowDefinition Height="1" x:Name="split"/>
+            <RowDefinition Height="*" x:Name="list"/>
+            <RowDefinition Height="100" x:Name="button"/>
+            <RowDefinition Height="20" x:Name="progressbar"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" 
+               Grid.Column="0" 
+               FontSize="24"
+               AllowDrop="False" Grid.ColumnSpan="2">
+            Zet alles op volgorde
+        </Label>
+        <Rectangle Grid.Row="1" Grid.Column="0" Fill="Black" Grid.ColumnSpan="2"/>
+        <ListBox Grid.Column="0" 
+                 Grid.Row="2"
+                 SelectionMode="Extended"
+                 HorizontalAlignment="Stretch"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ItemsSource="{Binding magazinePages}"
+                 dd:DragDrop.IsDragSource="true"
+                 dd:DragDrop.IsDropTarget="true"
+                 AllowDrop="True"
+                 x:Name="pageList" Grid.ColumnSpan="2">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Background="#2ba3d5" 
+                          Height="80"
+                          Width="{
+                                Binding ActualWidth, 
+                                RelativeSource={
+                                    RelativeSource Mode=FindAncestor, 
+                                    AncestorType=ListBox
+                                }
+                            }">
+                        <TextBlock Text="{Binding filename}" 
+                                   Foreground="White" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" 
+                                   FontSize="20"
+                                   Margin="5,5,5,5"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button Grid.Row="3"
+                Grid.Column="0" 
+                FontSize="42" 
+                Click="Button_Click"
+                AllowDrop="False" Grid.ColumnSpan="2">
+            Maak magazine
+        </Button>
+        <ProgressBar Grid.Row="4"
+                     Grid.Column="0"
+                     x:Name="progressBar"
+                     Maximum="100"
+                     Minimum="0"
+                     Value="0" Grid.ColumnSpan="2"/>
+    </Grid>
+</Window>
